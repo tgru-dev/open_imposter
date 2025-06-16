@@ -20,6 +20,7 @@ class _GamePhaseScreenState extends State<GamePhaseScreen> with SingleTickerProv
   bool _isDarkMode = false;
   bool _showEndButton = false;
   bool _hasCardBeenRevealedForCurrentPlayer = false;
+  late int _startPlayerIndex;
 
   @override
   void initState() {
@@ -35,6 +36,9 @@ class _GamePhaseScreenState extends State<GamePhaseScreen> with SingleTickerProv
       parent: _controller,
       curve: Curves.easeInOut,
     ));
+    
+    // Zufälligen Startspieler auswählen
+    _startPlayerIndex = Random().nextInt(widget.gameSettings.players.length);
   }
 
   @override
@@ -73,7 +77,7 @@ class _GamePhaseScreenState extends State<GamePhaseScreen> with SingleTickerProv
         _controller.reset();
       });
     } else {
-      // Zeige den Startspieler an
+      // Zeige den zufällig ausgewählten Startspieler an
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -92,7 +96,7 @@ class _GamePhaseScreenState extends State<GamePhaseScreen> with SingleTickerProv
               ),
             ),
             content: Text(
-              '${widget.gameSettings.players.first} beginnt das Spiel!',
+              '${widget.gameSettings.players[_startPlayerIndex]} beginnt das Spiel!',
               style: TextStyle(
                 color: _isDarkMode ? Colors.white : Colors.black87,
                 fontSize: 18,
