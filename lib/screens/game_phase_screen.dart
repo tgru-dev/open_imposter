@@ -37,8 +37,22 @@ class _GamePhaseScreenState extends State<GamePhaseScreen> with SingleTickerProv
       curve: Curves.easeInOut,
     ));
     
-    // Zufälligen Startspieler auswählen
-    _startPlayerIndex = Random().nextInt(widget.gameSettings.players.length);
+    // Zufälligen Startspieler auswählen, der nicht der letzte Startspieler war
+    List<int> availableIndices = List.generate(
+      widget.gameSettings.players.length,
+      (index) => index
+    );
+    
+    // Wenn es einen letzten Startspieler gibt, entferne ihn aus den verfügbaren Indizes
+    if (widget.gameSettings.lastStartingPlayer != null) {
+      int lastIndex = widget.gameSettings.players.indexOf(widget.gameSettings.lastStartingPlayer!);
+      if (lastIndex != -1) {
+        availableIndices.remove(lastIndex);
+      }
+    }
+    
+    // Wähle einen zufälligen Index aus den verfügbaren Indizes
+    _startPlayerIndex = availableIndices[Random().nextInt(availableIndices.length)];
   }
 
   @override
@@ -77,6 +91,9 @@ class _GamePhaseScreenState extends State<GamePhaseScreen> with SingleTickerProv
         _controller.reset();
       });
     } else {
+      // Speichere den aktuellen Startspieler als letzten Startspieler
+      String currentStartingPlayer = widget.gameSettings.players[_startPlayerIndex];
+      
       // Zeige den zufällig ausgewählten Startspieler an
       showDialog(
         context: context,
@@ -96,7 +113,7 @@ class _GamePhaseScreenState extends State<GamePhaseScreen> with SingleTickerProv
               ),
             ),
             content: Text(
-              '${widget.gameSettings.players[_startPlayerIndex]} beginnt das Spiel!',
+              '$currentStartingPlayer beginnt das Spiel!',
               style: TextStyle(
                 color: _isDarkMode ? Colors.white : Colors.black87,
                 fontSize: 18,

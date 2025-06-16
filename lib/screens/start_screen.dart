@@ -305,6 +305,7 @@ class _StartScreenState extends State<StartScreen> {
                         currentWord: wordWithHint['word'],
                         currentHint: wordWithHint['hint'],
                         showImposterHints: _showImposterHints,
+                        lastStartingPlayer: _settings.lastStartingPlayer,
                       );
 
                       Navigator.push(

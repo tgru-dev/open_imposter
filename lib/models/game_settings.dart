@@ -8,6 +8,7 @@ class GameSettings {
   String? currentWord;
   String? currentHint;
   List<String> imposters;
+  String? lastStartingPlayer;
   final CategoryManager _categoryManager = CategoryManager();
 
   GameSettings({
@@ -18,6 +19,7 @@ class GameSettings {
     this.currentWord,
     this.currentHint,
     List<String>? imposters,
+    this.lastStartingPlayer,
   }) : 
     players = players ?? [],
     selectedCategories = selectedCategories ?? [],
@@ -32,6 +34,7 @@ class GameSettings {
     String? currentWord,
     String? currentHint,
     List<String>? imposters,
+    String? lastStartingPlayer,
   }) {
     return GameSettings(
       players: players ?? this.players,
@@ -41,6 +44,7 @@ class GameSettings {
       currentWord: currentWord ?? this.currentWord,
       currentHint: currentHint ?? this.currentHint,
       imposters: imposters ?? this.imposters,
+      lastStartingPlayer: lastStartingPlayer ?? this.lastStartingPlayer,
     );
   }
 
@@ -68,6 +72,7 @@ class GameSettings {
     currentWord = null;
     currentHint = null;
     imposters.clear();
+    lastStartingPlayer = null;
   }
 
   void toggleCategory(String category) {
